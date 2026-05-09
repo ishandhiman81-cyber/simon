@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samanwaya's World | Forever & Always</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Gaegu:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cherry: #ff4d6d;
+      --soft-pink: #ffccd5;
+      --gold: #ffd700;
+      --bg-1: #1a0509;
+      --bg-2: #2a0812;
+      --bg-3: #0d0104;
+      --font-cute: 'Fredoka', sans-serif;
+      --font-hand: 'Gaegu', sans-serif;
+      --font-poem: 'Caveat', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      color: white;
+      font-family: var(--font-cute);
+      overflow-x: hidden;
+      background: linear-gradient(-45deg, var(--bg-1), var(--bg-2), var(--bg-3), #3a0b17);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+    .heart { position: absolute; filter: drop-shadow(0 0 10px var(--cherry)); animation: floatHeart 6s ease-in infinite; opacity: 0; }
+
+    @keyframes floatHeart {
+      0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
+      20% { opacity: 0.9; }
+      100% { transform: translateY(-15vh) scale(1.3) rotate(360deg); opacity: 0; }
+    }
+
+    .screen {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 0; left: 0;
+      transition: 0.8s transform cubic-bezier(0.175, 0.885, 0.32, 1.275), 0.5s opacity;
+      z-index: 5;
+    }
+
+    #page-gift { 
+      display: none; 
+      position: relative; 
+      min-height: 100vh; 
+      width: 100%; 
+      overflow-y: auto; 
+      z-index: 10;
+    }
+
+    .hidden { transform: translateX(100vw); opacity: 0; pointer-events: none; }
+    .past { transform: translateX(-100vw); opacity: 0; pointer-events: none; }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 40px;
+      padding: 40px 25px;
+      text-align: center;
+      width: 95%;
+      max-width: 550px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+      margin: 20px auto;
+      transition: transform 0.3s ease;
+    }
+    
+    .glass:hover { transform: translateY(-5px); }
+
+    .badge { 
+      font-family: var(--font-hand); 
+      background: linear-gradient(135deg, var(--cherry), #ff758c); 
+      color: white; 
+      padding: 8px 22px; 
+      border-radius: 20px; 
+      font-size: 1.3rem; 
+      display: inline-block; 
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+    }
+
+    #catch-area {
+      height: 300px;
+      background: rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      margin: 20px 0;
+      border: 2px solid rgba(255, 77, 109, 0.5);
+      width: 100%;
+    }
+
+    .falling-item { 
+      position: absolute; 
+      font-size: 35px; 
+      user-select: none; 
+      cursor: pointer;
+      filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+    }
+
+    .big-greet { 
+      font-size: 4.5rem; 
+      color: var(--gold); 
+      text-shadow: 0 0 15px var(--cherry), 0 0 30px var(--cherry); 
+      margin: 20px 0; 
+      text-align: center; 
+      line-height: 1.1; 
+      animation: pulseText 2s infinite alternate;
+    }
+
+    @keyframes pulseText {
+      0% { text-shadow: 0 0 15px var(--cherry), 0 0 30px var(--cherry); transform: scale(1); }
+      100% { text-shadow: 0 0 25px var(--cherry), 0 0 50px var(--cherry); transform: scale(1.02); }
+    }
+
+    .note-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 40px;
+      padding: 50px 35px;
+      margin: 40px auto;
+      max-width: 600px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .beautiful-note { font-family: var(--font-poem); font-size: 2rem; line-height: 1.6; color: #fff; text-align: center; }
+
+    .vertical-memories { display: flex; flex-direction: column; gap: 60px; width: 90%; max-width: 450px; margin: 60px auto; }
+    
+    .memory-card { 
+      background: white; 
+      padding: 15px 15px 60px 15px; 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6); 
+      transform: rotate(var(--r)); 
+      width: 100%; 
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+    }
+    .memory-card:hover {
+      transform: rotate(0deg) scale(1.05);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+      z-index: 20;
+    }
+    .memory-card img { width: 100%; height: auto; display: block; border: 1px solid #eee; border-radius: 4px; }
+    .memory-card p { font-family: var(--font-hand); color: #333; font-size: 1.8rem; margin-top: 20px; font-weight: 700; text-align: center; }
+
+    .btn-cute {
+      background: #fff; color: var(--cherry); padding: 16px 35px; border-radius: 100px;
+      font-weight: 700; border: none; cursor: pointer; font-size: 1.1rem;
+      box-shadow: 0 6px 0 #ffdccd, 0 15px 20px rgba(0,0,0,0.2); 
+      transition: all 0.2s;
+    }
+    .btn-cute:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #ffdccd, 0 20px 25px rgba(0,0,0,0.3);
+      background: #fff5f7;
+    }
+    .btn-cute:active { transform: translateY(6px); box-shadow: 0 0 0 #ffdccd; }
+
+    @keyframes pulseHeartTarget {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
+  <audio id="memoriesMusic" loop><source src="memories.mp3" type="audio/mpeg"></audio>
+
+  <div id="hearts-container"></div>
+
+  <!-- Intro Screen -->
+  <section class="screen" id="page-intro">
+    <div class="glass">
+      <div class="badge">Hey Samanwaya! 🍭</div>
+      <h1 style="font-size: 2.5rem; margin-bottom: 20px;">Happy Birthday To<br><span style="color:var(--cherry)">A Legend!</span></h1>
+      <button class="btn-cute" onclick="startExperience()">Start Level 1 🎮</button>
+    </div>
+  </section>
+
+  <!-- Level 1: Pop Hearts -->
+  <section class="screen hidden" id="page-game">
+    <div class="glass">
+      <div class="badge">Level 1: Pop the Hearts! ❤️</div>
+      <div id="game-area" style="height:250px; background:rgba(0,0,0,0.2); position:relative; overflow:hidden; border-radius:20px; margin:20px 0; border: 2px dashed rgba(255, 255, 255, 0.3);"></div>
+      <p style="font-size: 1.5rem; font-weight: bold;">Score: <span id="score">0</span>/5</p>
+    </div>
+  </section>
+
+  <!-- Level 2: Catch Cakes -->
+  <section class="screen hidden" id="page-game-2">
+    <div class="glass">
+      <div class="badge">Level 2: Catch the Cakes! 🎂</div>
+      <h2>Catch 5 Birthday Cakes</h2>
+      <div id="catch-area"></div>
+      <p style="font-size: 1.5rem; font-weight: bold;">Cakes Caught: <span id="score-2">0</span>/5</p>
+    </div>
+  </section>
+
+  <!-- Champion Greet -->
+  <section class="screen hidden" id="page-greet">
+    <div class="glass">
+      <div class="badge">CHAMPION 👑</div>
+      <h1 class="big-greet">Happy Birthday<br>Samanwaya!</h1>
+      <p style="margin-bottom: 30px; font-size: 1.2rem; color: #eee;">You cleared all the levels! I have a special gift for you...</p>
+      <button class="btn-cute" style="background: var(--gold); color: #000; box-shadow: 0 6px 0 #ccaa00, 0 15px 20px rgba(0,0,0,0.2);" onclick="nextPage('page-greet', 'page-gift')">See My Gift 🎁</button>
+    </div>
+  </section>
+
+  <!-- Final Gift & Memories Section -->
+  <section id="page-gift">
+    <div style="padding-top: 60px; text-align: center;">
+        <div class="badge" style="font-size: 1.8rem; padding: 10px 30px;">The Memories 📸</div>
+    </div>
+
+    <div class="note-card">
+      <div class="beautiful-note">
+        To my wonderful son, Samanwaya. Happy Birthday! Seeing the man you are becoming makes me incredibly proud every single day. You are not just my son; you are my strength and my greatest source of joy. I’ve watched you grow with kindness, intelligence, and a unique spirit. Remember that I am always behind you, supporting your dreams and celebrating every step you take. May this year bring you closer to all your goals. I love you, son!
+      </div>
+    </div>
+
+    <div class="vertical-memories">
+      <div class="memory-card" style="--r: -4deg"><img src="photo1.jpg" alt="1"><p>The Birthday Boy! 🎂</p></div>
+      <div class="memory-card" style="--r: 3deg"><img src="photo2.jpg" alt="2"><p>Great Times✨</p></div>
+      <div class="memory-card" style="--r: -2.5deg"><img src="photo3.jpg" alt="3"><p>Proud Moment 🌟</p></div>
+      <!-- Added Two New Photos Below -->
+      <div class="memory-card" style="--r: 4deg"><img src="photo4.jpg" alt="4"><p>Forever Young 🎈</p></div>
+      <div class="memory-card" style="--r: -3.5deg"><img src="photo5.jpg" alt="5"><p>The Best Son! ❤️</p></div>
+    </div>
+
+    <!-- Final Closing Note from Dad -->
+    <div class="note-card" style="margin-top: 0px; margin-bottom: 60px;">
+      <div class="beautiful-note" style="font-size: 1.6rem;">
+        Samanwaya, you have a bright future ahead of you. No matter how much you grow, you will always be the kid who made my world better. Keep working hard, stay humble, and keep that brilliant smile of yours. Happy Birthday, son! Let's make this year your best one yet! ✨
+      </div>
+    </div>
+
+    <div style="text-align: center; padding-bottom: 100px;">
+        <button class="btn-cute" onclick="location.reload()">Play Again 🌸</button>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    const audio1 = document.getElementById('bgMusic');
+    const audio2 = document.getElementById('memoriesMusic');
+
+    function startExperience() {
+      audio1.play().catch(err => console.log("Music play blocked"));
+      nextPage('page-intro', 'page-game');
+    }
+
+    function nextPage(curr, next) {
+      const currentElem = document.getElementById(curr);
+      const nextElem = document.getElementById(next);
+
+      if(next === 'page-gift') {
+        audio1.pause(); audio2.play();  
+        currentElem.classList.add('past');
+        nextElem.style.display = 'block';
+        window.scrollTo(0,0);
+        megaBurst();
+      } else {
+        currentElem.classList.add('past');
+        nextElem.classList.remove('hidden');
+      }
+      
+      if(next === 'page-game') startGame1();
+      if(next === 'page-game-2') startGame2();
+      if(next === 'page-greet') megaBurst();
+    }
+
+    function createHearts() {
+      const container = document.getElementById('hearts-container');
+      const emojis = ['❤️', '💖', '✨', '🌟'];
+      for(let i = 0; i < 40; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDelay = Math.random() * 8 + 's';
+        heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
+        container.appendChild(heart);
+      }
+    }
+    createHearts();
+
+    function startGame1() {
+      let score = 0;
+      const area = document.getElementById('game-area');
+      function spawn() {
+        if(score >= 5) return;
+        const target = document.createElement('div');
+        target.innerHTML = '💖'; 
+        target.style.position = 'absolute';
+        target.style.left = Math.random() * 80 + '%'; 
+        target.style.top = Math.random() * 80 + '%';
+        target.style.cursor = 'pointer'; 
+        target.style.fontSize = '50px';
+        target.style.animation = 'pulseHeartTarget 0.5s infinite alternate';
+        target.onclick = () => {
+          score++;
+          document.getElementById('score').innerText = score;
+          area.removeChild(target);
+          confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
+          if(score >= 5) setTimeout(() => nextPage('page-game', 'page-game-2'), 600);
+          else spawn();
+        };
+        area.appendChild(target);
+      }
+      spawn();
+    }
+
+    function startGame2() {
+      let score2 = 0;
+      const area = document.getElementById('catch-area');
+      function spawnCake() {
+        if(score2 >= 5) return;
+        const cake = document.createElement('div');
+        cake.className = 'falling-item';
+        cake.innerHTML = '🎂';
+        cake.style.left = Math.random() * 85 + '%';
+        cake.style.top = '-50px';
+        let rotation = 0;
+        let rotSpeed = (Math.random() - 0.5) * 5; 
+        area.appendChild(cake);
+        let pos = -50;
+        const fall = setInterval(() => {
+          pos += 3.5; rotation += rotSpeed;
+          cake.style.top = pos + 'px';
+          cake.style.transform = `rotate(${rotation}deg)`;
+          if(pos > 300) {
+            clearInterval(fall);
+            if(area.contains(cake)) area.removeChild(cake);
+            spawnCake();
+          }
+        }, 20);
+        cake.onclick = () => {
+          score2++;
+          document.getElementById('score-2').innerText = score2;
+          clearInterval(fall);
+          area.removeChild(cake);
+          confetti({ particleCount: 40, colors: ['#ffd700', '#ff4d6d'] });
+          if(score2 >= 5) setTimeout(() => nextPage('page-game-2', 'page-greet'), 600);
+          else spawnCake();
+        };
+      }
+      spawnCake();
+    }
+
+    function megaBurst() {
+      const end = Date.now() + 2500;
+      (function frame() {
+        confetti({ particleCount: 8, angle: 60, spread: 65, origin: { x: 0 }, colors: ['#ff4d6d', '#ffd700', '#fff'] });
+        confetti({ particleCount: 8, angle: 120, spread: 65, origin: { x: 1 }, colors: ['#ff4d6d', '#ffd700', '#fff'] });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+  </script>
+</body>
+</html>
